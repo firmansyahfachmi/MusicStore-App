@@ -137,7 +137,7 @@ const TabNavigator = createBottomTabNavigator({
 
 const AppNavigator = createSwitchNavigator({
   Tab: TabNavigator,
-  Login : {screen : Login},
+  // Login : {screen : Login},
   Daftar: {screen : Daftar}
   
 },{
