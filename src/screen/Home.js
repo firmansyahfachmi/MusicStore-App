@@ -46,7 +46,7 @@ class Home extends Component {
                     />
                     </View>
                     <View style={{width:'40%', flexDirection:'row'}}>
-                        <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}}>
+                        <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Keranjang')}>
                             <Icon name='shoppingcart' size={28} color="#fff" />
                         </TouchableOpacity>
                         <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Wishlist')}>
@@ -74,21 +74,6 @@ class Home extends Component {
                       
                
                     </ScrollView>
-
-                    {/* <View style={styles.footer}>
-                        <TouchableOpacity activeOpacity={0.5} style={{flex:1,alignItems:'center'}}>
-                            <Icon name="home" size={22} color="#fabc0c"/>
-                            <Text style={{color: '#fabc0c', fontSize:13}}>Home</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.5} style={{flex:1,alignItems:'center'}}>
-                            <Icon name="mail" size={22} color="grey"/>
-                            <Text style={{color: 'grey', fontSize:13}}>Request</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.5} style={{flex:1,alignItems:'center'}} onPress= {() => this.props.navigation.navigate('Profile')}>
-                            <Icon name="user" size={22} color="grey"/>
-                            <Text style={{color: 'grey', fontSize:13}}>Akun</Text>
-                        </TouchableOpacity>
-                    </View> */}
             </Fragment>
         )
     }
@@ -112,15 +97,6 @@ const styles = StyleSheet.create({
         color: 'black'
     },
 
-    footer :{
-        width: '100%',
-        height: 60,
-        backgroundColor: 'white',
-        flexDirection: 'row',
-        alignItems:'center',
-        padding: 10,
-        elevation: 20
-    }
 
 })
 

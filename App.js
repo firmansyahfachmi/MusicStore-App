@@ -6,7 +6,6 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar,
 } from 'react-native';
 
 import {Provider} from 'react-redux'
@@ -31,32 +30,63 @@ import Keranjang from './src/screen/Keranjang'
 
 const AppStack = createStackNavigator({
     Home:{
-      screen : Home
+      screen : Home,
+      navigationOptions : {
+        header: null,
+        tabBarVisible: true,
+      }
     },
+
     item:{
-      screen : Item
+      screen : Item,
+      navigationOptions : {
+        header: null
+      }
     },
+
     Detail:{
-      screen : Detail
+      screen : Detail,
+      navigationOptions : {
+        header: null
+      }
     },
-    Profile:{
-      screen : Profile
-    },
-    Login : {
-      screen : Login
-    },
-    Daftar : {
-      screen : Daftar
-    },
+
     Wishlist : {
-      screen : Wishlist
+      screen : Wishlist,
+      navigationOptions : {
+        headerTitle: <Text style={{color:'white', fontSize:20, fontWeight:'bold'}}>Wishlist</Text>,
+      }
     },
+
     Keranjang : {
-      screen : Keranjang
+      screen : Keranjang,
+      navigationOptions : {
+        headerTitle: <Text style={{color:'white', fontSize:20, fontWeight:'bold'}}>Keranjang</Text>,
+      }
     }
   },{
-    headerMode: 'none'
+    defaultNavigationOptions: {
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: '#F5D372',
+      },
+    },
+    navigationOptions: ({navigation}) => {
+      let tabBarVisible;
+      if (navigation.state.routes.length > 1) {
+        navigation.state.routes.map(route => {
+          if (route.routeName === route.routeName) {
+            tabBarVisible = false;
+          } else {
+            tabBarVisible = true;
+          }
+        });
+      }
+      return {
+        tabBarVisible
+      };
   }
+}
 )
 
 
@@ -64,16 +94,18 @@ const TabNavigator = createBottomTabNavigator({
   Home : {
     screen: AppStack,
     navigationOptions : {
+      
       tabBarIcon : ({tintColor}) => (
-          <Icon type="AntDesign" name="home" style={{fonstSize:18,color:`${tintColor}`}}/>
+          <Icon type="AntDesign" name="home" style={{fontSize:22,color:`${tintColor}`}}/>
       ),title: 'Home'
     }
   },
   Request : {
-    screen: AppStack,
+    screen: Home,
     navigationOptions : {
+      
       tabBarIcon : ({tintColor}) => (
-          <Icon type="AntDesign" name="mail" style={{fonstSize:18,color:`${tintColor}`}}/>
+          <Icon type="AntDesign" name="mail" style={{fontSize:22,color:`${tintColor}`}}/>
       ),title: 'Request'
     }
   },
@@ -81,7 +113,7 @@ const TabNavigator = createBottomTabNavigator({
     screen: Profile,
     navigationOptions : {
       tabBarIcon : ({tintColor}) => (
-          <Icon type="AntDesign" name="user" style={{fonstSize:18,color:`${tintColor}`}}/>
+          <Icon type="AntDesign" name="user" style={{fontSize:22,color:`${tintColor}`}}/>
       ),title: 'Profile'
     }
   }
@@ -90,14 +122,23 @@ const TabNavigator = createBottomTabNavigator({
     showIcon: true,
     activeTintColor: '#fabc0c',
     inactiveTintColor: 'grey',
-    showLabel: true
+    showLabel: true,
+    style : {
+      height: 50,
+      paddingVertical: 3,
+      // justifyContent:'center',
+      // alignItems:'center',
+      borderTopWidth: 0,
+      elevation: 20
+    }
     
   }
 })
 
 const AppNavigator = createSwitchNavigator({
   Tab: TabNavigator,
-  // App: AppStack,
+  Login : {screen : Login},
+  Daftar: {screen : Daftar}
   
 },{
   initialRouteName: 'Tab'

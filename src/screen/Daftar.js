@@ -19,7 +19,7 @@ class Daftar extends Component {
             <Fragment>
                 <View style = {styles.header} >
                     
-                    <TouchableOpacity style={{width:"15%",alignItems:'center'}} onPress={() => this.props.navigation.navigate('Home')}>
+                    <TouchableOpacity style={{width:"15%",alignItems:'center'}} onPress={() => this.props.navigation.navigate('Login')}>
                         <Icon name="arrowleft" size={28} color="#fff"/>
                     </TouchableOpacity>
                     

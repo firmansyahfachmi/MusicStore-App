@@ -14,8 +14,10 @@ const Category = (props) => {
         <Fragment>
             <View style = {styles.category}>
                 <ScrollView horizontal={true}  showsHorizontalScrollIndicator={false}>
+                   
                     {props.data.map(category =>(
-                    <TouchableOpacity activeOpacity={0.8} style={styles.cat1} onPress={() => props.navigation.navigate('item')}>
+                        
+                    <TouchableOpacity activeOpacity={0.8} key={category.id} style={styles.cat1} onPress={() => props.navigation.navigate('item', {category:category.category_name})}>
                         <View style={{flex:1}}>
                             <Image source={{uri : category.url}} style={styles.image}/>
                             
@@ -50,7 +52,8 @@ const styles = StyleSheet.create({
     image: {
         flex:1,
         width:100,
-        height:100
+        height:100,
+        resizeMode:'contain'
         
     },
 

@@ -19,7 +19,7 @@ class Wishlist extends Component {
     render(){
         return(
             <Fragment>
-                <View style = {styles.header} >
+                {/* <View style = {styles.header} >
                     
                     <TouchableOpacity style={{width:"15%",alignItems:'center'}} onPress={() => this.props.navigation.navigate('Home')}>
                         <Icon name="arrowleft" size={28} color="#fff"/>
@@ -29,7 +29,7 @@ class Wishlist extends Component {
                         <Text style={{color:'white', fontSize:20, fontWeight:'700'}}>Wishlist</Text>
                     </View>
               
-                </View>
+                </View> */}
                 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     

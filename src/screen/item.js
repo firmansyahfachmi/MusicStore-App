@@ -13,10 +13,26 @@ import Carditem from '../components/carditem'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { withNavigation } from 'react-navigation';
 
+import {connect} from 'react-redux'
+
+import {getProducts} from '../Publics/Redux/Action/products'
+
 
 
 class Item extends Component {
+    constructor(){
+        super()
+        this.state = {
+            page: 1 
+        }
+    }
+    
+    componentDidMount= async () => {
+        await this.props.dispatch(getProducts(this.props.navigation.getParam('category'), null, this.state.page))
+    }
+
     render(){
+        console.log('s',this.props)
         return(
             <Fragment>
                 <View style = {styles.header} >
@@ -34,16 +50,16 @@ class Item extends Component {
                         }}
                         placeholder="Search.."
                     />
-                    <View style={{width:"20%",alignItems:'center'}}>
-                        <Icon name="shoppingcart" size={28} color="#fff"/>
-                    </View>
+                    <TouchableOpacity style={{width:"20%",alignItems:'center'}}>
+                        <Icon name="shoppingcart" size={28} color="#fff" onPress={() => this.props.navigation.navigate('Keranjang')}/>
+                    </TouchableOpacity>
               
                 </View>
                 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     
                     <View style={styles.item}>
-                        <Carditem/>
+                        <Carditem data={this.props.products}/>
                     </View>
                     
             
@@ -64,9 +80,15 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     item: {
-        width: '100%'
+        width: '100%',
+        paddingTop:10
     },
 
 })
 
-export default withNavigation(Item)
+const mapStateToProps = state => {
+    return{
+        products:state.products.productsData
+    }
+}
+export default connect (mapStateToProps) (withNavigation(Item))

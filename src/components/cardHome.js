@@ -35,7 +35,7 @@ class Carditem extends Component {
                         renderItem={({ item }) => 
                         <TouchableOpacity activeOpacity={0.8} style={styles.carh1} onPress={() => this.props.navigation.navigate('Detail')}>
                             <View style={{ width:'100%',height:110,borderTopLeftRadius: 5,borderTopRightRadius: 5,backgroundColor:'white',alignItems:'center'}}>
-                                <Image source={harp} style={{width:80,flex:1}}/>
+                                <Image source={harp} style={{resizeMode:'contain',flex:1}}/>
                             </View>
                             <Text style={{flex:1,paddingLeft:10,paddingTop:5,fontSize:17,fontWeight:'700'}}>{item.name}</Text>
                             <Text style={{flex:1,paddingLeft:10,fontWeight:'500'}}>99.000</Text>

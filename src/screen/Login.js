@@ -8,12 +8,53 @@ import {
     Button
 } from 'react-native';
 
+import {login} from "../Publics/Redux/Action/user"
+import {connect} from 'react-redux'
+
 import Icon from 'react-native-vector-icons/AntDesign';
 import { withNavigation } from 'react-navigation';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 class Login extends Component {
+    constructor(){
+        super()
+        this.state = {
+            formData: {
+                email: '',
+                password: ''
+            }
+        }
+    }
+
+    handChange = (key, value) => {
+        let formData = { ...this.state.formData };
+        formData[key] = value;
+        this.setState({formData});
+    };
+
+    submitLogin = () => {
+        this.props.dispatch(login(this.state.formData))
+        .then(() => {
+        if(this.props.user == null){
+            alert('Wrong Email or Password')
+        }else{
+            AsyncStorage.setItem("token", this.props.user.token);
+            AsyncStorage.setItem("userId", this.props.user.id);
+            AsyncStorage.setItem("name", this.props.user.name);
+            AsyncStorage.setItem("email", this.props.user.email);
+            AsyncStorage.setItem("level", this.props.user.level);
+
+            alert('Berhasil Login!')
+            this.props.navigation.navigate('Home')
+        }
+       
+        })
+        .catch(err => {
+            alert(err);
+        });
+    }
+
     render(){
         return(
             <Fragment>
@@ -33,11 +74,18 @@ class Login extends Component {
                 <View style={styles.div}>
                     <View style={{marginVertical:15, marginHorizontal:5}}><Text style={{fontSize: 22,fontWeight:'bold'}}>Masuk Ke Akun</Text></View>
                     <View>
-                        <TextInput placeholder="Email" style={styles.input}/>
-                        <TextInput secureTextEntry={true} placeholder="Password" style={styles.input}/>
+                        <TextInput 
+                        name="email"
+                        onChangeText={(text)=>this.handleChange('email',text)}
+                        placeholder="Email" style={styles.input}/>
+
+                        <TextInput
+                        name="password"
+                        onChangeText={(text)=>this.handleChange('password',text)}
+                        secureTextEntry={true} placeholder="Password" style={styles.input}/>
                     </View>
                     <View style={{alignItems:'flex-end', marginVertical:5}}>
-                        <Button title="Masuk"color='#fabc0c'/>
+                        <Button title="Masuk"color='#fabc0c' onPress = {() => this.submitLogin}/>
                     </View>
 
                     <View style={{flexDirection:'row',justifyContent:'center', marginTop:100}}>
@@ -85,4 +133,10 @@ const styles = StyleSheet.create({
 
 })
 
-export default withNavigation(Login)
+const mapStateToProps = state => {
+    return{
+        user:state.user.currentUser
+    }
+}
+
+export default connect (mapStateToProps) (withNavigation(Login))

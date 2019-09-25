@@ -33,14 +33,14 @@ export default class CardWishlist extends Component {
                         numColumns={2}
                         data={this.state.data}
                         renderItem={({ item }) => 
-                        <View style={styles.carh1}>
+                        <TouchableOpacity activeOpacity={0.8} style={styles.carh1} onPress={() => this.props.navigation.navigate('Detail')}>
                             <View style={{ width:'100%',height:110,borderTopLeftRadius: 5,borderTopRightRadius: 5,backgroundColor:'white',alignItems:'center'}}>
                                 <Image source={harp} style={{width:80,flex:1}}/>
                             </View>
                             <Text style={{flex:1,paddingLeft:10,paddingTop:5,fontSize:17,fontWeight:'700'}}>{item.name}</Text>
                             <Text style={{flex:1,paddingLeft:10,fontWeight:'500'}}>99.000</Text>
                             <TouchableOpacity activeOpacity={0.5} style={{alignItems:'flex-end', padding:10, marginTop:-40}}><Icon name="trash" size={35} color="red"/></TouchableOpacity>
-                        </View>}
+                        </TouchableOpacity>}
                         keyExtractor={item => item.id}
                     />
                 </View>

@@ -18,7 +18,7 @@ class Keranjang extends Component {
     render(){
         return(
             <Fragment>
-                <View style = {styles.header} >
+                {/* <View style = {styles.header} >
                     
                     <TouchableOpacity style={{width:"15%",alignItems:'center'}} onPress={() => this.props.navigation.navigate('Home')}>
                         <Icon type="AntDesign" name="arrowleft" size={28} style={{color:'white'}}/>
@@ -28,7 +28,7 @@ class Keranjang extends Component {
                         <Text style={{color:'white', fontSize:20, fontWeight:'700'}}>Keranjang</Text>
                     </View>
               
-                </View>
+                </View> */}
                 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     
@@ -39,7 +39,7 @@ class Keranjang extends Component {
                         <View style={styles.profile}>
                             <Text style={{fontSize:20,fontWeight:'700',color:'grey'}}>Name</Text>
                             <Text style={{fontSize:16, fontWeight:'700',color:'grey'}}>Rp. 99.000</Text>
-                            <View style={{flex:1,alignItems:'flex-end',paddingBottom:35, flexDirection:'row'}}>
+                            <View style={{flex:1,alignItems:'center',paddingVertical:15, flexDirection:'row'}}>
                                 <TouchableOpacity style={{marginRight:10}}><Icon type="EvilIcons" name="trash" size={35}/></TouchableOpacity>
                                 <TouchableOpacity><Icon type="EvilIcons" name="minus" size={35}/></TouchableOpacity>
                                 <View style={{marginHorizontal:15}}><Text style={{fontSize:20}}>1</Text></View>
@@ -49,29 +49,16 @@ class Keranjang extends Component {
                        
                     </View>
 
-                    <View style={styles.div}>
-                        <View style={styles.img}>
-                            <View style={styles.imgProfile}></View>
-                        </View>
-                        <View style={styles.profile}>
-                            <Text style={{fontSize:20,fontWeight:'700',color:'grey'}}>Name</Text>
-                            <Text style={{fontSize:16, fontWeight:'700',color:'grey'}}>Rp. 99.000</Text>
-                            <View style={{flex:1,alignItems:'flex-end',paddingBottom:35, flexDirection:'row'}}>
-                                <TouchableOpacity style={{marginRight:10}}><Icon type="EvilIcons" name="trash" size={35}/></TouchableOpacity>
-                                <TouchableOpacity><Icon type="EvilIcons" name="minus" size={35}/></TouchableOpacity>
-                                <View style={{marginHorizontal:15}}><Text style={{fontSize:20}}>1</Text></View>
-                                <TouchableOpacity><Icon type="EvilIcons" name="plus" size={35}/></TouchableOpacity>
-                            </View>
-                        </View>
-                       
-                    </View>
             
                 </ScrollView>
 
                 <View style={styles.footer}>
-                        <TouchableOpacity activeOpacity={0.5} style={{flex:1,alignItems:'center'}} onPress= {() => this.props.navigation.navigate('Home')}>
-                            <Icon type="AntDesign" name="home" size={22} color="grey"/>
-                            <Text style={{color: 'grey', fontSize:13}}>Home</Text>
+                        <View style={{flex:1,paddingHorizontal:5}}>
+                            <Text>Total Harga</Text>
+                            <Text style={{fontWeight:'700'}}>Rp. 180.000</Text>
+                        </View>
+                        <TouchableOpacity activeOpacity={0.5} style={styles.butCart} onPress= {() => this.props.navigation.navigate('Home')}>
+                            <Text style={{color: 'white', fontSize:15,fontWeight:'700'}}>Beli</Text>
                         </TouchableOpacity>
                     </View>
             </Fragment>
@@ -80,7 +67,13 @@ class Keranjang extends Component {
 }
 
 const styles = StyleSheet.create({
-
+    butCart : {
+        flex:1,
+        alignItems:'center',
+        backgroundColor:'#fabc0c',
+        padding:10,
+        borderRadius:5
+    },
     header: {
         backgroundColor: '#F5D372',
         width: '100%',
