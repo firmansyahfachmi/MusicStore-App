@@ -16,21 +16,35 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import Carousel from '../components/carousel'
 import Category from '../components/category'
 import CardHome from '../components/cardHome'
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 class Home extends Component {
     constructor(){
         super()
         this.state = {
-
+            userid : '',
+            search: ''
         }
     }
 
     componentDidMount = async () =>{
         await this.props.dispatch(getCategory())
+        await AsyncStorage.getItem('userId').then(res => {
+            this.setState({userid:Number(res)})
+        })
+    }
+
+    handleChange = async (value) => {
+       await this.setState({search: value});
+    };
+
+    redirect = () =>{
+        this.props.navigation.navigate('item', {name:this.state.search})
     }
 
     render(){
+        
         return(
             <Fragment>
                 <View style = {styles.header} >
@@ -43,13 +57,15 @@ class Home extends Component {
                         marginLeft: 3
                         }}
                         placeholder="Search.."
+                        onChangeText={(text)=>this.handleChange(text)}
+                        onSubmitEditing={() => this.redirect()}
                     />
                     </View>
                     <View style={{width:'40%', flexDirection:'row'}}>
-                        <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Keranjang')}>
+                        <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Keranjang',{id:this.state.userid})}>
                             <Icon name='shoppingcart' size={28} color="#fff" />
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Wishlist')}>
+                        <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Wishlist', {id:this.state.userid} )}>
                             <Icon name="heart" size={25} color="#fff"/>
                         </TouchableOpacity>
                     </View>

@@ -12,14 +12,20 @@ export default class Carousel extends Component {
             <Fragment>
                 <View style = {styles.carousel} >
                     <ScrollView horizontal={true}  showsHorizontalScrollIndicator={false}>
-                        <View style={styles.carl1}>
-                           <Text></Text>
+                        <View style={[styles.carl1,{backgroundColor: '#f2891f',} ]}>
+                           <Text style={{fontSize: 23,
+                            color:'white',
+                            fontWeight:'700'}}>Promo</Text>
                         </View>
-                        <View style={styles.carl1}>
-                            <Text></Text>
+                        <View style={[styles.carl1,{backgroundColor: '#24add6',} ]}>
+                            <Text style={{fontSize: 23,
+                            color:'white',
+                            fontWeight:'700'}}>New Instrument</Text>
                         </View>
-                        <View style={styles.carl1}>
-                            <Text></Text>
+                        <View style={[styles.carl1,{backgroundColor: '#ffc012',} ]}>
+                            <Text style={{fontSize: 23,
+                            color:'white',
+                            fontWeight:'700'}}>Discount %</Text>
                         </View>
                     </ScrollView>
                 </View>
@@ -37,13 +43,16 @@ const styles = StyleSheet.create({
     },
 
     carl1: {
-        backgroundColor: 'whitesmoke',
+        
         width: 300,
         height: 130,
         borderRadius: 5,
         marginRight: 10,
         elevation: 3,
         marginBottom:5,
-        marginLeft: 5
+        marginLeft: 5,
+        justifyContent: 'center',
+        alignItems:'center'
+        
     },
 })

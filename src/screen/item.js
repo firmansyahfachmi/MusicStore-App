@@ -17,22 +17,42 @@ import {connect} from 'react-redux'
 
 import {getProducts} from '../Publics/Redux/Action/products'
 
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 class Item extends Component {
     constructor(){
         super()
         this.state = {
-            page: 1 
+            page: 1,
+            iduser: '',
+            search: ''
         }
     }
     
     componentDidMount= async () => {
-        await this.props.dispatch(getProducts(this.props.navigation.getParam('category'), null, this.state.page))
+        this.subscribe = this.props.navigation.addListener('didFocus', async () => {
+            await this.props.dispatch(getProducts(this.props.navigation.getParam('category'), this.props.navigation.getParam('name'), this.state.page))
+        })
+
+        await AsyncStorage.getItem('userId').then(res =>{
+            this.setState({
+                iduser:Number(res)
+            })
+        })
+        
     }
 
+    handleChange = async (value) => {
+        await this.setState({search: value});
+    };
+
+    redirect = () =>{
+        this.props.dispatch(getProducts(this.props.navigation.getParam('category'), this.state.search, this.state.page))
+    }
+         
+
     render(){
-        console.log('s',this.props)
         return(
             <Fragment>
                 <View style = {styles.header} >
@@ -49,9 +69,11 @@ class Item extends Component {
                         width:"65%"
                         }}
                         placeholder="Search.."
+                        onChangeText={(text)=>this.handleChange(text)}
+                        onSubmitEditing={() => this.redirect()}
                     />
                     <TouchableOpacity style={{width:"20%",alignItems:'center'}}>
-                        <Icon name="shoppingcart" size={28} color="#fff" onPress={() => this.props.navigation.navigate('Keranjang')}/>
+                        <Icon name="shoppingcart" size={28} color="#fff" onPress={() => this.props.navigation.navigate('Keranjang',{id:this.state.iduser})}/>
                     </TouchableOpacity>
               
                 </View>
@@ -59,7 +81,14 @@ class Item extends Component {
                 <ScrollView showsVerticalScrollIndicator={false}>
                     
                     <View style={styles.item}>
+                        {(this.props.products.length > 0) ?
                         <Carditem data={this.props.products}/>
+                        :
+                        <View style={{flex:1,justifyContent:'center',alignItems:'center',height:500}}>
+                            <Icon name="frown" size={50} style={{color:'silver'}}/>
+                            <Text style={{fontSize:18,color:'silver',paddingTop:10}}>Data not found</Text>
+                        </View>
+                        }
                     </View>
                     
             
@@ -81,7 +110,8 @@ const styles = StyleSheet.create({
     },
     item: {
         width: '100%',
-        paddingTop:10
+        paddingTop:10,
+        flex:1,
     },
 
 })

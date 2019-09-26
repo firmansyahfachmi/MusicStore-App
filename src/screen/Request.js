@@ -61,6 +61,8 @@ class Request extends Component {
                             style={styles.input}/>
 
                             <TextInput 
+                            multiline={true}
+                            numberOfLines={5}
                             placeholder="Request"
                             style={styles.input}/>
 

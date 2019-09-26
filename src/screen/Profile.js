@@ -141,17 +141,13 @@ class Profile extends Component {
                     <Button title="Masuk"color='#fabc0c' onPress = {() => 
                     this.props.dispatch(login(this.state.formData))
                     .then(() => {
-                    if(this.props.user === null){
-                        Toast.show({
-                            text: 'Email atau Password salah!',
-                            buttonText: 'OK'
-                          })
-                    }else{
+                    
+                        
                         AsyncStorage.setItem("token", this.props.user.token);
-                        AsyncStorage.setItem("userId", this.props.user.id);
+                        AsyncStorage.setItem("userId", this.props.user.id.toString());
                         AsyncStorage.setItem("name", this.props.user.name);
                         AsyncStorage.setItem("email", this.props.user.email);
-                        AsyncStorage.setItem("level", this.props.user.level);
+                        AsyncStorage.setItem("level", this.props.user.level.toString());
 
                         Toast.show({
                             text: 'Berhasil Login',
@@ -159,7 +155,6 @@ class Profile extends Component {
                             duration: 3000
                           })
                         this.props.navigation.navigate('Home')
-                    }
                 
                     })
                     .catch(err => {

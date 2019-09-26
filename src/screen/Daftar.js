@@ -67,7 +67,7 @@ class Daftar extends Component {
                                     buttonText: 'OK',
                                     duration: 2000
                                   })
-                                this.props.navigation.navigate('Profile')
+                                this.props.navigation.navigate('Home')
                             })
                             
                         }
@@ -76,7 +76,7 @@ class Daftar extends Component {
 
                     <View style={{flexDirection:'row',justifyContent:'center', marginTop:100}}>
                         <Text style={{fontSize:16}}>Sudah Punya Akun ?</Text>
-                        <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('Login')}>
+                        <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('Profile')}>
                             <Text style={{fontSize:16,fontWeight:'700',color:'#fabc0c'}}> Masuk</Text>
                         </TouchableOpacity>
                     </View>

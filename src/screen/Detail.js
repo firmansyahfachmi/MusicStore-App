@@ -13,28 +13,145 @@ import {connect} from 'react-redux'
 import {getProductsDetail} from '../Publics/Redux/Action/products'
 import { withNavigation } from 'react-navigation';
 
+import {addWishlist, getWishlist, deleteWishlist} from '../Publics/Redux/Action/wishlist'
+
+import {addCart, editCart} from '../Publics/Redux/Action/cart'
+
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import harp from '../img/harp.png'
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 class Detail extends Component {
     constructor(){
         super()
         this.state = {
-
+            iduser: '',
+            token: '',
+            user: '',
+            isWishlisted: false,
+            search: ''
         }
     }
 
     componentDidMount = async () => {
+       
         await this.props.dispatch(getProductsDetail(this.props.navigation.getParam('name')))
+
+        let res = {...this.props.detail[0]}
+        let id = res.id
+
+
+        await AsyncStorage.getItem('userId').then(res =>{
+            this.setState({
+                iduser:Number(res)
+            })
+        })
+
+        await AsyncStorage.getItem('token').then(res => {
+            this.setState({
+            
+                token:res
+                
+            })
+        })
+
+        await AsyncStorage.getItem('userId').then(res => {
+            this.setState({
+                
+                user:Number(res)
+             
+            })
+        })
+
+        let header = {
+            token: this.state.token,
+            user: this.state.user,
+        }
+
+        await this.props.dispatch(getWishlist(this.state.iduser,header));
+        
+        this.props.wishlist.map(item => {
+            if(item.id == id && item.id_user == this.state.iduser){ 
+                this.setState({
+                    isWishlisted:true
+                })
+            }
+            return null;
+        })
+
+
+    }
+
+    addWishlist = (data, command) =>{
+        let header = {
+            token: this.state.token,
+            user: this.state.user,
+        }
+
+        if(command == 'add'){ 
+            this.props.dispatch(addWishlist(data, this.state.iduser, header))
+            this.setState({
+                isWishlisted:true
+            });
+        }else if(command == 'remove') {
+            this.props.dispatch(deleteWishlist(this.state.iduser,this.state.idItem,header));
+            this.setState({
+                isWishlisted:false
+            });
+        }
+        
+    }
+
+    
+
+    handleChange = async (value) => {
+        await this.setState({search: value});
+     };
+ 
+     redirect = () =>{
+         this.props.navigation.navigate('item', {name:this.state.search})
+     }
+
+    addCart = async (data) => {
+        let header = {
+            token: this.state.token,
+            user: this.state.user,
+        }
+        let find = false;
+
+        this.props.cart.map(cart => {
+            if (cart.id_product === data.id) {
+                find = true;
+            }
+            return null;
+        });
+
+        let findqty = this.props.cart.filter(cart => cart.id_product === data.id);
+        let qty = { ...findqty[0] };
+
+        await this.setState({ quantity: this.state.quantity + qty.quantity || 1 });
+        if (find === true) {
+            let newData = { ...data, quantity: this.state.quantity };
+            this.props.dispatch(editCart(newData,header)).then(res => {
+                this.props.navigation.navigate('Keranjang', {id:this.state.iduser})
+            })
+        } else {
+            this.props.dispatch(addCart(data,header)).then(res => {
+                this.props.navigation.navigate('Keranjang', {id:this.state.iduser})
+            })
+        }
+        
+
     }
 
     render(){
+        let data = {...this.props.detail[0]}
         return(
             <Fragment>
                 <View style = {styles.header} >
                     
-                    <TouchableOpacity style={{width:"15%",alignItems:'center'}} onPress={() => this.props.navigation.navigate('Home')}>
+                    <TouchableOpacity style={{width:"15%",alignItems:'center'}} onPress={() => this.props.navigation.goBack()}>
                         <Icon name="arrowleft" size={28} color="#fff"/>
                     </TouchableOpacity>
                     
@@ -46,9 +163,11 @@ class Detail extends Component {
                         width:"65%"
                         }}
                         placeholder="Search.."
+                        onChangeText={(text)=>this.handleChange(text)}
+                        onSubmitEditing={() => this.redirect()}
                     />
                     <TouchableOpacity style={{width:"20%",alignItems:'center'}}>
-                        <Icon name="shoppingcart" size={28} color="#fff" onPress={() => this.props.navigation.navigate('Keranjang')}/>
+                        <Icon name="shoppingcart" size={28} color="#fff" onPress={() => this.props.navigation.navigate('Keranjang',{id:this.state.iduser})}/>
                     </TouchableOpacity>
               
                 </View>
@@ -61,14 +180,24 @@ class Detail extends Component {
                         </View>
 
                         <View style={styles.title}>
-                            <View style={{alignItems:"flex-end",marginTop:-45,margibBottom:40,marginRight:5}}>
-                                <Icon name="heart" size={30} color="grey" style={{backgroundColor:'white',padding:12,borderRadius:35, elevation:5}}/>
-                            </View>
+                        {(this.state.isWishlisted === true)? 
+                            <TouchableOpacity style={styles.divWish} onPress={() => this.addWishlist(detail, 'remove')}>
+                               
+                                <Icon name="heart" size={30} color="red" style={styles.heart}/>
+                                                              
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.divWish} onPress={() => this.addWishlist(detail, 'add')}>
+                               
+                                <Icon name="heart" size={30} color="grey" style={styles.heart}/>
+                                                              
+                            </TouchableOpacity>
+                         }
                             <View style={{flex:1,justifyContent: 'center'}}>
                                 <Text style={{fontSize:19,fontWeight:'bold'}}>{detail.name}</Text>
                             </View>
                         
-                            <View style={{flex:1,justifyContent: 'center'}}><Text style={{fontWeight:'700',color:'#fabc0c',fontSize:17}}>Rp. {detail.price}</Text></View>
+                            <View style={{flex:1,justifyContent: 'center'}}><Text style={{fontWeight:'700',color:'#fabc0c',fontSize:17}}>Rp. {detail.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text></View>
                         </View>
 
                         <View style={styles.desc}>
@@ -98,7 +227,7 @@ class Detail extends Component {
                     <TouchableOpacity activeOpacity={0.5} style={{flex:1,alignItems:'center'}}>
                         <Text style={{color: '#fabc0c',fontWeight:'bold', fontSize:17}}>Beli</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.5} style={styles.buttonCart}>
+                    <TouchableOpacity activeOpacity={0.5} style={styles.buttonCart} onPress={() => this.addCart(data)}>
                         <Text style={{color: 'white',fontWeight:'700', fontSize:15}}>Tambah Ke Keranjang</Text>
                     </TouchableOpacity>
                 </View>
@@ -108,6 +237,20 @@ class Detail extends Component {
 }
 
 const styles = StyleSheet.create({
+    divWish:{
+        alignItems:"flex-end",
+        marginTop:-45,
+        marginBottom:40,
+        marginRight:5
+    },
+
+    heart: {
+        backgroundColor:'white',
+        padding:12,
+        borderRadius:35,
+         elevation:5
+    },
+
     sub : {
         fontSize:17,
         fontWeight:'700',
@@ -170,7 +313,9 @@ const styles = StyleSheet.create({
 
 const mapStateTopProps = state => {
     return{
-        detail:state.products.detailData
+        detail:state.products.detailData,
+        wishlist:state.wishlist.wishlistData,
+        cart:state.cart.cartData
     }
 }
 

@@ -9,37 +9,85 @@ import {
     TouchableOpacity
 } from 'react-native';
 
+import { withNavigation } from 'react-navigation';
+
 import Icon from 'react-native-vector-icons/EvilIcons';
+import { deleteWishlist } from '../Publics/Redux/Action/wishlist';
+import {connect} from 'react-redux'
 
-import harp from '../img/harp.png'
+import AsyncStorage from '@react-native-community/async-storage';
 
-export default class CardWishlist extends Component {
+class CardWishlist extends Component {
     constructor(){
         super()
         this.state = {
-            data : [
-                {id: 1,name: 'aku'},
-                {id: 2,name: 'itu'},
-                {id: 3,name: 'liu'},
-            ]
+            iduser: '',
+            token: '',
+            user: ''
         }
     }
 
+    componentDidMount = async () => {
+        await AsyncStorage.getItem('userId').then(res =>{
+            this.setState({
+                iduser:Number(res)
+            })
+        })
+
+        await AsyncStorage.getItem('token').then(res => {
+            this.setState({
+            
+                token:res
+                
+            })
+        })
+        await AsyncStorage.getItem('userId').then(res => {
+            this.setState({
+                
+                user:Number(res)
+             
+            })
+        })
+
+        
+    }
+
     render(){
+        let header = {
+            token: this.state.token,
+            user: this.state.user,
+        }
         return(
             <Fragment>
                 <View style={styles.cardhome}>
                     <FlatList
                         numColumns={2}
-                        data={this.state.data}
-                        renderItem={({ item }) => 
-                        <TouchableOpacity activeOpacity={0.8} style={styles.carh1} onPress={() => this.props.navigation.navigate('Detail')}>
-                            <View style={{ width:'100%',height:110,borderTopLeftRadius: 5,borderTopRightRadius: 5,backgroundColor:'white',alignItems:'center'}}>
-                                <Image source={harp} style={{width:80,flex:1}}/>
+                        data={this.props.data}
+                        renderItem={({ item }) =>
+
+                        <TouchableOpacity activeOpacity={0.8} style={styles.carh1} onPress={() => this.props.navigation.navigate('Detail', {name:item.name})}>
+
+                            <View style={styles.img}>
+                                <Image source={{uri: item.url}} style={{width:80,flex:1,resizeMode:'contain'}}/>
                             </View>
-                            <Text style={{flex:1,paddingLeft:10,paddingTop:5,fontSize:17,fontWeight:'700'}}>{item.name}</Text>
-                            <Text style={{flex:1,paddingLeft:10,fontWeight:'500'}}>99.000</Text>
-                            <TouchableOpacity activeOpacity={0.5} style={{alignItems:'flex-end', padding:10, marginTop:-40}}><Icon name="trash" size={35} color="red"/></TouchableOpacity>
+
+                            <Text style={styles.name}>
+                            {
+                                (item.name.length > 27) ?
+                                item.name.substr(item.name,27)+'...'
+                                :
+                                item.name
+                            }
+                            </Text>
+
+                            <Text style={{flex:1,paddingLeft:10,fontWeight:'700',color:'orange'}}>
+                                Rp. {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                            </Text>
+
+                            <TouchableOpacity activeOpacity={0.5} style={{alignItems:'flex-end', padding:10, marginTop:-10}} onPress = {() => this.props.dispatch(deleteWishlist(this.state.iduser,item.id,header))}>
+                                <Icon name="trash" size={35} color="red"/>
+                            </TouchableOpacity>
+
                         </TouchableOpacity>}
                         keyExtractor={item => item.id}
                     />
@@ -50,6 +98,22 @@ export default class CardWishlist extends Component {
 }
 
 const styles = StyleSheet.create({
+    name: {
+        flex:1,
+        paddingLeft:10,
+        paddingTop:5,
+        fontSize:14,
+        fontWeight:'700'
+    },
+
+    img : {
+        width:'100%',
+        height:110,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        backgroundColor:'white',
+        alignItems:'center',
+    },
     cardhome: {
         width: '100%',
         height: 'auto',
@@ -70,3 +134,5 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
 })
+
+export default connect () (withNavigation(CardWishlist))

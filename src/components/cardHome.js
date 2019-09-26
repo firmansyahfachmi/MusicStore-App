@@ -17,9 +17,9 @@ class Carditem extends Component {
         super()
         this.state = {
             data : [
-                {id: 1,name: 'aku'},
-                {id: 2,name: 'itu'},
-                {id: 3,name: 'liu'},
+                {id: 1,name: 'Harp1'},
+                {id: 2,name: 'Harp2'},
+                {id: 3,name: 'Harp3'},
 
             ]
         }
@@ -38,7 +38,7 @@ class Carditem extends Component {
                                 <Image source={harp} style={{resizeMode:'contain',flex:1}}/>
                             </View>
                             <Text style={{flex:1,paddingLeft:10,paddingTop:5,fontSize:17,fontWeight:'700'}}>{item.name}</Text>
-                            <Text style={{flex:1,paddingLeft:10,fontWeight:'500'}}>99.000</Text>
+                            <Text style={{flex:1,paddingLeft:10,fontWeight:'700',color:'orange'}}>Rp. 2.000.000</Text>
 
                         </TouchableOpacity>}
                         keyExtractor={item => item.id}
