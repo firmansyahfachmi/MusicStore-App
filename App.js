@@ -11,13 +11,13 @@ import {
 import {Provider} from 'react-redux'
 import store from './src/Publics/Redux/store'
 
-import {Icon} from 'native-base'
+import {Icon, Root} from 'native-base'
 
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 import {createStackNavigator} from 'react-navigation-stack'
 import {createBottomTabNavigator} from 'react-navigation-tabs'
+import AsyncStorage from '@react-native-community/async-storage';
 
-// import Icon from 'react-native-vector-icons/Entypo';
 
 import Home from './src/screen/Home'
 import Item from './src/screen/item'
@@ -27,6 +27,8 @@ import Login from './src/screen/Login'
 import Daftar from './src/screen/Daftar'
 import Wishlist from './src/screen/Wishlist'
 import Keranjang from './src/screen/Keranjang'
+import Request from './src/screen/Request'
+import History from './src/screen/History'
 
 const AppStack = createStackNavigator({
     Home:{
@@ -63,7 +65,20 @@ const AppStack = createStackNavigator({
       navigationOptions : {
         headerTitle: <Text style={{color:'white', fontSize:20, fontWeight:'bold'}}>Keranjang</Text>,
       }
-    }
+    },
+    History: {
+      screen : History,
+      navigationOptions : {
+        headerTitle: <Text style={{color:'white', fontSize:20, fontWeight:'bold'}}>History Transaksi</Text>,
+      }
+    },
+    Profile: {
+      screen : Profile,
+      navigationOptions : {
+        headerTitle: <Text style={{color:'white', fontSize:20, fontWeight:'bold',marginLeft:20}}>Akun Saya</Text>,
+        headerLeft: null
+      }
+    },
   },{
     defaultNavigationOptions: {
       headerTintColor: '#fff',
@@ -90,8 +105,32 @@ const AppStack = createStackNavigator({
 )
 
 
+const AuthStack = createStackNavigator({
+  
+  Profile: {
+    screen : Profile,
+    navigationOptions : {
+      header: null
+    }
+  },
+  Daftar: {
+    screen : Daftar,
+    navigationOptions : {
+      headerTitle: <Text style={{color:'white', fontSize:20, fontWeight:'bold'}}>Daftar</Text>,
+    }
+  },
+},{
+  defaultNavigationOptions: {
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: '#F5D372',
+    }
+  }
+})
+
+
 const TabNavigator = createBottomTabNavigator({
-  Home : {
+  HomeTab : {
     screen: AppStack,
     navigationOptions : {
       
@@ -100,8 +139,8 @@ const TabNavigator = createBottomTabNavigator({
       ),title: 'Home'
     }
   },
-  Request : {
-    screen: Home,
+  RequestTab : {
+    screen: Request,
     navigationOptions : {
       
       tabBarIcon : ({tintColor}) => (
@@ -109,12 +148,13 @@ const TabNavigator = createBottomTabNavigator({
       ),title: 'Request'
     }
   },
-  Profile : {
-    screen: Profile,
+  ProfileTab : {
+    screen: AuthStack,
     navigationOptions : {
       tabBarIcon : ({tintColor}) => (
           <Icon type="AntDesign" name="user" style={{fontSize:22,color:`${tintColor}`}}/>
-      ),title: 'Profile'
+      ),title: 'Akun',
+      
     }
   }
 },{
@@ -126,8 +166,6 @@ const TabNavigator = createBottomTabNavigator({
     style : {
       height: 50,
       paddingVertical: 3,
-      // justifyContent:'center',
-      // alignItems:'center',
       borderTopWidth: 0,
       elevation: 20
     }
@@ -137,8 +175,7 @@ const TabNavigator = createBottomTabNavigator({
 
 const AppNavigator = createSwitchNavigator({
   Tab: TabNavigator,
-  // Login : {screen : Login},
-  Daftar: {screen : Daftar}
+  
   
 },{
   initialRouteName: 'Tab'
@@ -150,7 +187,9 @@ export default class App extends React.Component {
   render(){
     return (
       <Provider store={store}>
+        <Root>
         <AppContainer/>
+        </Root>
       </Provider>
     )
   }

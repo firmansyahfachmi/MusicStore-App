@@ -49,10 +49,12 @@ const user = (state = initialState, action) => {
 
 
             };
-        case 'LOGOUT_FULFILLED':
+        case 'LOGOUT':
             return {
                 ...state,
-                currentUser: {}
+                isLoading: false,
+                    isFulfilled: true,
+                    currentUser: {}
             }
             default:
                 return state;

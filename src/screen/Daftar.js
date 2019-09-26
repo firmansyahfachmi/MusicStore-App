@@ -11,34 +11,67 @@ import {
 import Icon from 'react-native-vector-icons/AntDesign';
 import { withNavigation } from 'react-navigation';
 
+import {connect} from 'react-redux'
+import {register} from '../Publics/Redux/Action/user'
 
 
 class Daftar extends Component {
+    constructor(){
+        super()
+        this.state = {
+            formData : {
+                name: '',
+                email: '',
+                password: ''
+            }
+        }
+    }
+
+    handleChange = (key, value) => {
+        let formData = { ...this.state.formData };
+        formData[key] = value;
+        this.setState({formData});
+    };
+
     render(){
         return(
             <Fragment>
-                <View style = {styles.header} >
-                    
-                    <TouchableOpacity style={{width:"15%",alignItems:'center'}} onPress={() => this.props.navigation.navigate('Login')}>
-                        <Icon name="arrowleft" size={28} color="#fff"/>
-                    </TouchableOpacity>
-                    
-                    <View style={{alignItems:'center'}}>
-                        <Text style={{color:'white', fontSize:20, fontWeight:'700'}}>Daftar</Text>
-                    </View>
-              
-                </View>
-                
-                    
                 <View style={styles.div}>
                     <View style={{marginVertical:15, marginHorizontal:5}}><Text style={{fontSize: 22,fontWeight:'bold'}}>Buat Akun</Text></View>
                     <View>
-                        <TextInput placeholder="Name" style={styles.input}/>
-                        <TextInput placeholder="Email" style={styles.input}/>
-                        <TextInput secureTextEntry={true} placeholder="Password" style={styles.input}/>
+                        <TextInput 
+                        placeholder="Name" 
+                        name="name"
+                        onChangeText={(text)=>this.handleChange('name',text)}
+                        style={styles.input}/>
+
+                        <TextInput 
+                        name="email"
+                        onChangeText={(text)=>this.handleChange('email',text)}
+                        placeholder="Email" style={styles.input}/>
+
+                        <TextInput 
+                        secureTextEntry={true}
+                        placeholder="Password"
+                        name="password"
+                        onChangeText={(text)=>this.handleChange('password',text)}
+                        style={styles.input}/>
+
                     </View>
                     <View style={{alignItems:'flex-end', marginVertical:5}}>
-                        <Button title="Daftar" color='#fabc0c'/>
+                        <Button title="Daftar" color='#fabc0c' onPress ={() => 
+                        {
+                            this.props.dispatch(register(this.state.formData)).then(res =>{
+                                Toast.show({
+                                    text: 'Berhasil Daftar',
+                                    buttonText: 'OK',
+                                    duration: 2000
+                                  })
+                                this.props.navigation.navigate('Profile')
+                            })
+                            
+                        }
+                    }/>
                     </View>
 
                     <View style={{flexDirection:'row',justifyContent:'center', marginTop:100}}>
@@ -86,4 +119,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default withNavigation(Daftar)
+export default connect() (withNavigation(Daftar))
