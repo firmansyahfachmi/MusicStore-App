@@ -16,19 +16,18 @@ import {Icon, Root} from 'native-base'
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 import {createStackNavigator} from 'react-navigation-stack'
 import {createBottomTabNavigator} from 'react-navigation-tabs'
-import AsyncStorage from '@react-native-community/async-storage';
 
 
 import Home from './src/screen/Home'
 import Item from './src/screen/item'
 import Detail from './src/screen/Detail'
 import Profile from './src/screen/Profile'
-import Login from './src/screen/Login'
 import Daftar from './src/screen/Daftar'
 import Wishlist from './src/screen/Wishlist'
 import Keranjang from './src/screen/Keranjang'
 import Request from './src/screen/Request'
 import History from './src/screen/History'
+import Splash from './src/screen/Splash'
 
 const AppStack = createStackNavigator({
     Home:{
@@ -174,11 +173,12 @@ const TabNavigator = createBottomTabNavigator({
 })
 
 const AppNavigator = createSwitchNavigator({
+  Splash: Splash,
   Tab: TabNavigator,
   
   
 },{
-  initialRouteName: 'Tab'
+  initialRouteName: 'Splash'
 })
 
 const AppContainer = createAppContainer(AppNavigator)

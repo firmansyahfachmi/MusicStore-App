@@ -81,7 +81,7 @@ class Keranjang extends Component {
 
         return(
             <Fragment>
-  
+                
                 {(this.props.cart.length > 0)?
                 <>
                 <ScrollView showsVerticalScrollIndicator={false}>

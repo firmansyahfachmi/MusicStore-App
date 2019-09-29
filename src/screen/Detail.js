@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
+import {Spinner} from 'native-base'
 
 import {connect} from 'react-redux'
 import {getProductsDetail} from '../Publics/Redux/Action/products'
@@ -30,13 +31,17 @@ class Detail extends Component {
             token: '',
             user: '',
             isWishlisted: false,
-            search: ''
+            search: '',
+            dataDetail: []
         }
     }
 
     componentDidMount = async () => {
-       
+        await this.setState({dataDetail:[]})
         await this.props.dispatch(getProductsDetail(this.props.navigation.getParam('name')))
+        .then(res =>{
+            this.setState({dataDetail: this.props.detail})
+        })
 
         let res = {...this.props.detail[0]}
         let id = res.id
@@ -83,6 +88,17 @@ class Detail extends Component {
 
     }
 
+    componentWillUnmount() {
+        this.setState({  
+            iduser: '',
+            token: '',
+            user: '',
+            isWishlisted: false,
+            search: '',
+            dataDetail: []
+        })
+      }
+
     addWishlist = (data, command) =>{
         let header = {
             token: this.state.token,
@@ -109,9 +125,9 @@ class Detail extends Component {
         await this.setState({search: value});
      };
  
-     redirect = () =>{
-         this.props.navigation.navigate('item', {name:this.state.search})
-     }
+    redirect = () =>{
+        this.props.navigation.navigate('item', {name:this.state.search})
+    }
 
     addCart = async (data) => {
         let header = {
@@ -146,6 +162,7 @@ class Detail extends Component {
     }
 
     render(){
+        console.log('s', this.state.iduser)
         let data = {...this.props.detail[0]}
         return(
             <Fragment>
@@ -172,65 +189,84 @@ class Detail extends Component {
               
                 </View>
                 
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    {this.props.detail.map(detail => (
-                    <View key={detail.id}>
-                        <View style={styles.image}>
-                            <Image source={{uri : detail.url}} style={{flex:1,resizeMode:'contain',width:'100%'}}/>
-                        </View>
-
-                        <View style={styles.title}>
-                        {(this.state.isWishlisted === true)? 
-                            <TouchableOpacity style={styles.divWish} onPress={() => this.addWishlist(detail, 'remove')}>
-                               
-                                <Icon name="heart" size={30} color="red" style={styles.heart}/>
-                                                              
-                            </TouchableOpacity>
-                            :
-                            <TouchableOpacity style={styles.divWish} onPress={() => this.addWishlist(detail, 'add')}>
-                               
-                                <Icon name="heart" size={30} color="grey" style={styles.heart}/>
-                                                              
-                            </TouchableOpacity>
-                         }
-                            <View style={{flex:1,justifyContent: 'center'}}>
-                                <Text style={{fontSize:19,fontWeight:'bold'}}>{detail.name}</Text>
-                            </View>
-                        
-                            <View style={{flex:1,justifyContent: 'center'}}><Text style={{fontWeight:'700',color:'#fabc0c',fontSize:17}}>Rp. {detail.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text></View>
-                        </View>
-
-                        <View style={styles.desc}>
-                            <View>
-                                <Text style={styles.sub}>Informasi Produk</Text>
-                            </View>
-                            <View style={{paddingTop:15,flex:1}}>
-                                <Text style={{fontSize:15,color:'grey'}}>Stok : {detail.quantity}</Text>
-                            </View>
-                            <View style={{paddingVertical:15}}>
-                                <Text style={{fontSize:15,color:'grey'}}>Cabang : {detail.branch_name}</Text>
-                            </View>
-                            <View>
-                                <Text style={styles.sub}>Deskripsi Produk</Text>
-                            </View>
-                            <View style={{paddingTop:5}}>
-                                <Text style={{fontSize:14,color:'grey'}}>
-                                {detail.description}
-                                </Text>
-                            </View>
-                        </View>
-                    </View>
-                    ))}
-                </ScrollView>
-
-                <View style={styles.footer}>
-                    <TouchableOpacity activeOpacity={0.5} style={{flex:1,alignItems:'center'}}>
-                        <Text style={{color: '#fabc0c',fontWeight:'bold', fontSize:17}}>Beli</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.5} style={styles.buttonCart} onPress={() => this.addCart(data)}>
-                        <Text style={{color: 'white',fontWeight:'700', fontSize:15}}>Tambah Ke Keranjang</Text>
-                    </TouchableOpacity>
+                {(this.props.loading)?
+                <View style={{flex:1,justifyContent:'center',alignItems:'center',height:550}}>
+                    <Spinner color='#F5D372' />
                 </View>
+                :
+                <>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        {this.props.detail.map(detail => (
+                        <View key={detail.id}>
+                            <View style={styles.image}>
+                                <Image source={{uri : detail.url}} style={{flex:1,resizeMode:'contain',width:'100%'}}/>
+                            </View>
+
+                            <View style={styles.title}>
+                            {(this.state.iduser !== 0)?
+                                
+                                (this.state.isWishlisted === true)? 
+                                    <TouchableOpacity style={styles.divWish} onPress={() => this.addWishlist(detail, 'remove')}>
+                                    
+                                        <Icon name="heart" size={30} color="red" style={styles.heart}/>
+                                                                    
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity style={styles.divWish} onPress={() => this.addWishlist(detail, 'add')}>
+                                    
+                                        <Icon name="heart" size={30} color="grey" style={styles.heart}/>
+                                                                    
+                                    </TouchableOpacity>
+                                    :
+                                    null
+                                    
+                                
+                            }
+                                <View style={{flex:1,justifyContent: 'center'}}>
+                                    <Text style={{fontSize:19,fontWeight:'bold'}}>{detail.name}</Text>
+                                </View>
+                            
+                                <View style={{flex:1,justifyContent: 'center'}}><Text style={{fontWeight:'700',color:'#fabc0c',fontSize:17}}>Rp. {detail.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text></View>
+                            </View>
+
+                            <View style={styles.desc}>
+                                <View>
+                                    <Text style={styles.sub}>Informasi Produk</Text>
+                                </View>
+                                <View style={{paddingTop:15,flex:1}}>
+                                    <Text style={{fontSize:15,color:'grey'}}>Stok : {detail.quantity}</Text>
+                                </View>
+                                <View style={{paddingVertical:15}}>
+                                    <Text style={{fontSize:15,color:'grey'}}>Cabang : {detail.branch_name}</Text>
+                                </View>
+                                <View>
+                                    <Text style={styles.sub}>Deskripsi Produk</Text>
+                                </View>
+                                <View style={{paddingTop:5}}>
+                                    <Text style={{fontSize:14,color:'grey'}}>
+                                    {detail.description}
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+                        ))}
+                    </ScrollView>
+                    
+
+                    {(this.state.iduser !== 0)?
+                    <View style={styles.footer}>
+                        <TouchableOpacity activeOpacity={0.5} style={{flex:1,alignItems:'center'}}>
+                            <Text style={{color: '#fabc0c',fontWeight:'bold', fontSize:17}}>Beli</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={0.5} style={styles.buttonCart} onPress={() => this.addCart(data)}>
+                            <Text style={{color: 'white',fontWeight:'700', fontSize:15}}>Tambah Ke Keranjang</Text>
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    null
+                    }
+                </>
+                }
             </Fragment>
         )
     }
@@ -313,9 +349,11 @@ const styles = StyleSheet.create({
 
 const mapStateTopProps = state => {
     return{
+        loading:state.products.isLoading,
         detail:state.products.detailData,
         wishlist:state.wishlist.wishlistData,
-        cart:state.cart.cartData
+        cart:state.cart.cartData,
+        user:state.user.currentUser
     }
 }
 

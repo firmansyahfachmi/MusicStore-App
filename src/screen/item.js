@@ -8,6 +8,8 @@ import {
     TouchableOpacity
 } from 'react-native';
 
+import {Spinner} from 'native-base'
+
 import Carditem from '../components/carditem'
 
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -26,13 +28,19 @@ class Item extends Component {
         this.state = {
             page: 1,
             iduser: '',
-            search: ''
+            search: '',
+            products: []
         }
     }
     
     componentDidMount= async () => {
-        this.subscribe = this.props.navigation.addListener('didFocus', async () => {
+        
+        this.subscribe = await this.props.navigation.addListener('didFocus', async () => {
+            await this.setState({products: []})
             await this.props.dispatch(getProducts(this.props.navigation.getParam('category'), this.props.navigation.getParam('name'), this.state.page))
+            .then(res => {
+                this.setState({products: this.props.products})
+            })
         })
 
         await AsyncStorage.getItem('userId').then(res =>{
@@ -48,11 +56,14 @@ class Item extends Component {
     };
 
     redirect = () =>{
-        this.props.dispatch(getProducts(this.props.navigation.getParam('category'), this.state.search, this.state.page))
+        this.props.dispatch(getProducts(this.props.navigation.getParam('category'), this.state.search, this.state.page)).then(res => {
+            this.setState({products: this.props.products})
+        })
     }
          
 
     render(){
+        
         return(
             <Fragment>
                 <View style = {styles.header} >
@@ -75,13 +86,19 @@ class Item extends Component {
                     <TouchableOpacity style={{width:"20%",alignItems:'center'}}>
                         <Icon name="shoppingcart" size={28} color="#fff" onPress={() => this.props.navigation.navigate('Keranjang',{id:this.state.iduser})}/>
                     </TouchableOpacity>
-              
+            
                 </View>
-                
+                {  (this.props.loading) ?
+                    <View style={{flex:1,justifyContent:'center',alignItems:'center',height:550}}>
+                        <Spinner color='#F5D372' />
+                    </View>
+                   
+                :
                 <ScrollView showsVerticalScrollIndicator={false}>
                     
+                
                     <View style={styles.item}>
-                        {(this.props.products.length > 0) ?
+                        {(this.state.products.length > 0) ?
                         <Carditem data={this.props.products}/>
                         :
                         <View style={{flex:1,justifyContent:'center',alignItems:'center',height:500}}>
@@ -90,12 +107,14 @@ class Item extends Component {
                         </View>
                         }
                     </View>
-                    
-            
+
                 </ScrollView>
+
+                }
             </Fragment>
         )
     }
+    
 }
 
 const styles = StyleSheet.create({
@@ -118,7 +137,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return{
-        products:state.products.productsData
+        products:state.products.productsData,
+        loading: state.products.isLoading
     }
 }
 export default connect (mapStateToProps) (withNavigation(Item))

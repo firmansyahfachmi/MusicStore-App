@@ -124,8 +124,24 @@ class Profile extends Component {
             </View>
                 :
             /* LOGIN FORM */
+            <>
+            <View style = {styles.header} >
+                <TouchableOpacity style={{width:"10%",alignItems:'center'}} onPress={() => this.props.navigation.navigate('HomeTab')}>
+                    <Icon name="arrowleft" size={28} color="#fff"/>
+                </TouchableOpacity>
+
+                <View style={{width:'40%', flexDirection:'row'}}>
+                    <Text style={{marginLeft: 20,color:'white', fontWeight:'700', fontSize:20}}>Masuk</Text>
+                </View>
+            </View>
+
             <View style={styles.div1}>
-                <View style={{marginVertical:15, marginHorizontal:5}}><Text style={{fontSize: 22,fontWeight:'bold'}}>Masuk Ke Akun</Text></View>
+                
+
+                <View style={{marginVertical:15, marginHorizontal:5}}>
+                    <Text style={{fontSize: 22,fontWeight:'bold'}}>Masuk Ke Akun</Text>
+                </View>
+
                 <View>
                     <TextInput 
                     name="email"
@@ -170,6 +186,7 @@ class Profile extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
+            </>
             }
                 
             </Fragment>

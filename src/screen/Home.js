@@ -62,12 +62,23 @@ class Home extends Component {
                     />
                     </View>
                     <View style={{width:'40%', flexDirection:'row'}}>
-                        <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Keranjang',{id:this.state.userid})}>
+                    {
+                        (this.props.user.length < 1)?
+
+                        <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('ProfileTab')}>
                             <Icon name='shoppingcart' size={28} color="#fff" />
                         </TouchableOpacity>
+                        :
+                        <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Keranjang',{id:this.state.userid})}>
+                        <Icon name='shoppingcart' size={28} color="#fff" />
+                    </TouchableOpacity>
+                    }
+                        
                         <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Wishlist', {id:this.state.userid} )}>
                             <Icon name="heart" size={25} color="#fff"/>
                         </TouchableOpacity>
+                        
+
                     </View>
                 </View>
                 
@@ -118,7 +129,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return{
-        category:state.category.categoryData
+        category:state.category.categoryData,
+        user:state.user.currentUser
     }
 }
 
