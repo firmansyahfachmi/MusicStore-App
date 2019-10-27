@@ -57,7 +57,7 @@ MusicStore is an apps for selling Music Instrument
   </p>
   
 ## Download APK
-[`Download Now`](shorturl.at/ntABL)
+[`Download Now`](https://shorturl.at/ntABL)
   
    
 ## License
