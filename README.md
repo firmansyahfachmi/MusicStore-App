@@ -23,15 +23,37 @@ MusicStore is an apps for selling Music Instrument
 
  
 ## Screenshot
+ <p align="center">
+    <span>
+      <img src="https://user-images.githubusercontent.com/52324743/67632190-078d4f00-f8d3-11e9-8f2c-6f11de0eafcd.png" width="250px" />
+      &nbsp;&nbsp;
+      <img src="https://user-images.githubusercontent.com/52324743/67632194-183dc500-f8d3-11e9-9608-ced82ef480d4.png" width="250px" />
+      &nbsp;&nbsp;
+      <img src="https://user-images.githubusercontent.com/52324743/67632200-2e4b8580-f8d3-11e9-9913-a7e96eea5390.png" width="250px" />
+    </span>
+  </p>
+   <p align="center">
+    <span>
+      <img src="https://user-images.githubusercontent.com/52324743/67632216-605ce780-f8d3-11e9-8cfe-bde6464910d0.png" width="250px" />
+      &nbsp;&nbsp;
+      <img src="https://user-images.githubusercontent.com/52324743/67632222-75d21180-f8d3-11e9-9f29-217405705fef.png" width="250px" />
+      &nbsp;&nbsp;
+      <img src="https://user-images.githubusercontent.com/52324743/67632224-7f5b7980-f8d3-11e9-9fa0-bad1f8805314.png" width="250px" />
+    </span>
+  </p>
   <p align="center">
-    <!--<span>
-      <img src="https://user-images.githubusercontent.com/52324743/66675310-46929200-ec8f-11e9-9ea0-86646891c8b1.png" width="250px" />
+    <span>
+      <img src="https://user-images.githubusercontent.com/52324743/67632234-ac0f9100-f8d3-11e9-8173-2717ba10b126.png" width="250px" />
       &nbsp;&nbsp;
-      <img src="https://user-images.githubusercontent.com/52324743/66672738-2bbd1f00-ec89-11e9-9156-917f8d38efb3.png" width="250px" />
+      <img src="https://user-images.githubusercontent.com/52324743/67632249-be89ca80-f8d3-11e9-9efa-b39279c873e7.png" width="250px" />
       &nbsp;&nbsp;
-      <img src="https://user-images.githubusercontent.com/52324743/66672907-a8e89400-ec89-11e9-8a2d-d896ce314f07.png" width="250px" />
-    </span>-->
-    
+      <img src="https://user-images.githubusercontent.com/52324743/67632255-cc3f5000-f8d3-11e9-9f20-4d98807c2370.png" width="250px" />
+    </span>
+  </p>
+  <p align="center">
+    <span>
+      <img src="https://user-images.githubusercontent.com/52324743/67632273-04df2980-f8d4-11e9-9e7b-0e62544646a3.png" width="250px" />
+    </span>
   </p>
   
    
