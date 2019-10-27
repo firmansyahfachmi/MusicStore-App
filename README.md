@@ -1,4 +1,4 @@
-<h1 align="center">MusicStore - Apps</h1><br/><br/>
+<h1 align="center">MusicStore - Mobile App</h1><br/><br/>
 
 
 <br/><br/>
