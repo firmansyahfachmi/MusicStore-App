@@ -66,16 +66,16 @@ class Home extends Component {
                         (this.props.user.length < 1)?
 
                         <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('ProfileTab')}>
-                            <Icon name='shoppingcart' size={28} color="#fff" />
+                            <Icon name='shoppingcart' size={28} color="#ffffff" />
                         </TouchableOpacity>
                         :
                         <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Keranjang',{id:this.state.userid})}>
-                        <Icon name='shoppingcart' size={28} color="#fff" />
+                        <Icon name='shoppingcart' size={28} color="#ffffff" />
                     </TouchableOpacity>
                     }
                         
                         <TouchableOpacity activeOpacity={0.8} style={{flex:1,alignItems:'center',justifyContent:"center"}} onPress={() => this.props.navigation.navigate('Wishlist', {id:this.state.userid} )}>
-                            <Icon name="heart" size={25} color="#fff"/>
+                            <Icon name="heart" size={25} color="#ffffff"/>
                         </TouchableOpacity>
                         
 
