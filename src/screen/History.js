@@ -78,7 +78,7 @@ class History extends Component {
                         
                             <View style={{flex:1,paddingVertical:10,paddingHorizontal:15}}>
                                 <Text style={{flex:1,paddingVertical:2, color:'grey'}}>Nama Produk : {data.name}</Text>
-                                <Text style={{flex:1,paddingVertical:2, color:'grey'}}>Kategori : {data.category_name}</Text>
+                                <Text style={{flex:1,paddingVertical:2, color:'grey'}}>Category : {data.category_name}</Text>
                                 <Text style={{flex:1,paddingVertical:2, color:'grey'}}>Quantity : {data.quantity}</Text>
                                 <Text style={{flex:1,paddingVertical:2, color:'grey'}}>Cabang : {data.branch_name}</Text>
                             </View>
