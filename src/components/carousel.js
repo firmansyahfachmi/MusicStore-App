@@ -25,7 +25,7 @@ export default class Carousel extends Component {
                         <View style={[styles.carl1,{backgroundColor: '#ffc012',} ]}>
                             <Text style={{fontSize: 23,
                             color:'white',
-                            fontWeight:'700'}}>Discount %</Text>
+                            fontWeight:'700'}}>Discounted %</Text>
                         </View>
                     </ScrollView>
                 </View>
