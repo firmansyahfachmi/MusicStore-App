@@ -13,8 +13,8 @@ import harp from '../img/harp.png'
 import { withNavigation } from 'react-navigation';
 
 class Carditem extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
             data : [
                 {id: 1,name: 'Harp1'},
@@ -25,20 +25,34 @@ class Carditem extends Component {
         }
     }
 
+    componentDidMount = () => {
+        console.log('data cok =>', this.props.data)
+    }
+
+    formatNumber = (number) => {
+        if(number !== undefined){
+            let rupiah = '';		
+            let angkarev = number.toString().split('').reverse().join('');
+            for(let i = 0; i < angkarev.length; i++) 
+            if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+            return rupiah.split('',rupiah.length-1).reverse().join('');
+        }
+    }
+
     render(){
         return(
             <Fragment>
                 <View style={styles.cardhome}>
                     <FlatList
                         numColumns={2}
-                        data={this.state.data}
+                        data={this.props.data}
                         renderItem={({ item }) => 
-                        <TouchableOpacity activeOpacity={0.8} style={styles.carh1} onPress={() => this.props.navigation.navigate('Detail')}>
+                        <TouchableOpacity activeOpacity={0.8} style={styles.carh1} onPress={() => this.props.navigation.navigate('Detail', {name: item.name})}>
                             <View style={{ width:'100%',height:110,borderTopLeftRadius: 5,borderTopRightRadius: 5,backgroundColor:'white',alignItems:'center'}}>
-                                <Image source={harp} style={{resizeMode:'contain',flex:1}}/>
+                                <Image source={{uri: item.url}} style={{flex:1,resizeMode:'cover',width:'100%'}}/>
                             </View>
                             <Text style={{flex:1,paddingLeft:10,paddingTop:5,fontSize:17,fontWeight:'700'}}>{item.name}</Text>
-                            <Text style={{flex:1,paddingLeft:10,fontWeight:'700',color:'orange'}}>Rp. 2.000.000</Text>
+                            <Text style={{flex:1,paddingLeft:10,fontWeight:'700',color:'orange'}}>Rp. {this.formatNumber(item.price)}</Text>
 
                         </TouchableOpacity>}
                         keyExtractor={item => item.id}
@@ -64,12 +78,13 @@ const styles = StyleSheet.create({
     carh1: {
         backgroundColor: 'whitesmoke',
         width: '47%',
-        height: 170,
+        // height: 170,
         borderRadius: 5,
         marginRight:5,
         marginBottom:10,
         elevation: 2,
-        marginLeft: 5
+        marginLeft: 5,
+        paddingBottom: 10,
     },
 })
 

@@ -1,21 +1,31 @@
 {
-  "name": "anekaMusik",
+  "name": "anekamusik",
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && rimraf android/app/src/main/res/drawable-* && rimraf android/app/src/main/res/raw",
+    "apk-debug": "npm run clean && npm run build && cd android && ./gradlew assembleDebug",
+    "apk": "npm run clean && npm run build && cd android && ./gradlew assembleRelease",
+    "release": "npm run clean && npm run build && cd android && ./gradlew bundleRelease",
+    "clean": "cd android && ./gradlew clean",
+    "rebuild": "react-native bundle --platform android --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --dev false --reset-cache --assets-dest android/app/src/main/res/",
+    "android": "npm run clean && react-native run-android",
+    "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "clean:ios": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf node_modules/ && npm cache verify && npm install && npm start -- --reset-cache"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
+    "@react-native-community/toolbar-android": "^0.2.1",
     "axios": "^0.19.0",
     "native-base": "^2.13.8",
-    "react": "16.8.6",
-    "react-native": "0.60.5",
-    "react-native-gesture": "^0.2.0",
-    "react-native-gesture-handler": "^1.4.1",
-    "react-native-reanimated": "^1.2.0",
+    "react": "18.2.0",
+    "react-native": "0.62.2",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-reanimated": "^1.13.3",
+    "react-native-screens": "^2.8.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.8",
     "react-navigation-stack": "^1.9.0",
@@ -32,7 +42,7 @@
     "babel-jest": "24.9.0",
     "eslint": "6.4.0",
     "jest": "24.9.0",
-    "metro-react-native-babel-preset": "0.54.1",
+    "metro-react-native-babel-preset": "0.59.0",
     "react-test-renderer": "16.8.6"
   },
   "jest": {

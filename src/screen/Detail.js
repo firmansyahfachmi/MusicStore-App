@@ -37,7 +37,8 @@ class Detail extends Component {
     }
 
     componentDidMount = async () => {
-        await this.setState({dataDetail:[]})
+        console.log("detail produk", this.props.navigation.getParam('name'));
+        this.setState({dataDetail:[]})
         await this.props.dispatch(getProductsDetail(this.props.navigation.getParam('name')))
         .then(res =>{
             this.setState({dataDetail: this.props.detail})

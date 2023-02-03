@@ -10,6 +10,7 @@ import {
 
 import {connect} from 'react-redux'
 import {getCategory} from '../Publics/Redux/Action/category'
+import {getProductsList} from '../Publics/Redux/Action/products'
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -24,12 +25,19 @@ class Home extends Component {
         super()
         this.state = {
             userid : '',
-            search: ''
+            search: '',
+            dataHome: []
         }
     }
 
     componentDidMount = async () =>{
         await this.props.dispatch(getCategory())
+        await this.props.dispatch(getProductsList()).then(res => {
+            const response = res.action.payload.data.data
+            this.setState({
+                dataHome: response
+            })
+        })
         await AsyncStorage.getItem('userId').then(res => {
             this.setState({userid:Number(res)})
         })
@@ -96,7 +104,7 @@ class Home extends Component {
                         <View style={{marginTop:15}}>
                             <Text style={styles.title}>Penawaran Terbaru</Text>
 
-                            <CardHome/>
+                            <CardHome data={this.state.dataHome}/>
                         </View>
                       
                
@@ -130,6 +138,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return{
         category:state.category.categoryData,
+        products:state.products.productsData,
         user:state.user.currentUser
     }
 }

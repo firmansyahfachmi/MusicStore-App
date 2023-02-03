@@ -5,8 +5,10 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    Button
+    Button,
 } from 'react-native';
+
+import {Toast} from 'native-base'
 
 import Icon from 'react-native-vector-icons/AntDesign';
 import { withNavigation } from 'react-navigation';
@@ -66,7 +68,7 @@ class Daftar extends Component {
                                     text: 'Berhasil Daftar',
                                     buttonText: 'OK',
                                     duration: 2000
-                                  })
+                                })
                                 this.props.navigation.navigate('Home')
                             })
                             

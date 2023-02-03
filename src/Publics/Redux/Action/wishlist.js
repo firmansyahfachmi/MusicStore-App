@@ -5,7 +5,7 @@ import Axios from 'axios';
 export const getWishlist = (id, header) => {
     return { 
         type: 'GET_WISHLIST',
-        payload: Axios.get(`http://192.168.6.159:4000/anekamusik/wishlist/${id}`, {
+        payload: Axios.get(`http://139.59.231.85/v1/wishlist/${id}`, {
             headers: {
                 authorization: 'musicStoreHeaders',
                 token: header.token,
@@ -18,7 +18,7 @@ export const getWishlist = (id, header) => {
 export const addWishlist = (data, id, header) => {
     return {
         type: 'POST_WISHLIST',
-        payload: Axios.post(`http://192.168.6.159:4000/anekamusik/wishlist/${id}`, data, {
+        payload: Axios.post(`http://139.59.231.85/v1/wishlist/${id}`, data, {
             headers: {
                 authorization: 'musicStoreHeaders',
                 token: header.token,
@@ -31,7 +31,7 @@ export const addWishlist = (data, id, header) => {
 export const deleteWishlist = (uid, id, header) => {
     return {
         type: 'DELETE_WISHLIST',
-        payload: Axios.delete(`http://192.168.6.159:4000/anekamusik/wishlist/${uid}/${id}`, {
+        payload: Axios.delete(`http://139.59.231.85/v1/wishlist/${uid}/${id}`, {
             headers: {
                 authorization: 'musicStoreHeaders',
                 token: header.token,
